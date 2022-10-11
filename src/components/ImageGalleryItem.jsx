@@ -11,8 +11,16 @@ export class ImageGalleryItem extends Component {
     this.setState({ isModalOpen: false });
   };
   keydown = evt => {
-    console.log(evt.key);
+    if (evt.key === 'Escape') {
+      this.closeModal();
+    }
   };
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.isModalOpen) {
+      return document.addEventListener('keydown', this.keydown);
+    }
+    document.removeEventListener('keydown', this.keydown);
+  }
 
   render() {
     const { data } = this.props;
