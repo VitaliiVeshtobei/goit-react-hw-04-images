@@ -1,25 +1,20 @@
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { React, Component } from 'react';
+
 import { SearchBar } from './SearchBar';
 import { ImageGallery } from './ImageGallery';
+import { useState } from 'react';
 
-export class App extends Component {
-  state = {
-    pictureName: '',
+export function App() {
+  const [pictureName, setPictureName] = useState('');
+  const handlePictureName = name => {
+    setPictureName(name);
   };
-
-  handlePictureName = name => {
-    this.setState({ pictureName: name });
-  };
-
-  render() {
-    return (
-      <div className="App">
-        <ToastContainer />
-        <SearchBar onSubmit={this.handlePictureName} />
-        <ImageGallery pictureName={this.state.pictureName} />
-      </div>
-    );
-  }
+  return (
+    <div className="App">
+      <ToastContainer />
+      <SearchBar onSubmit={handlePictureName} />
+      <ImageGallery pictureName={pictureName} />
+    </div>
+  );
 }

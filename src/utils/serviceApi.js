@@ -12,10 +12,12 @@ export const getApi = async (nextStatePage, nextName) => {
     page: `${nextStatePage}`,
     per_page: '12',
   };
-
-  const resolve = await axios(BASE_URL, { params });
-
-  return resolve.data;
+  try {
+    const resolve = await axios(BASE_URL, { params });
+    return resolve.data;
+  } catch (erorr) {
+    console.log(erorr);
+  }
 };
 
 getApi.propTypes = {
