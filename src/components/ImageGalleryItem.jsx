@@ -1,47 +1,36 @@
 import React from 'react';
 import { Modal } from './Modal';
-import { Component } from 'react';
+import { useState } from 'react';
+import PropTypes from 'prop-types';
 
-export class ImageGalleryItem extends Component {
-  state = { isModalOpen: false };
-  openModal = () => {
-    this.setState({ isModalOpen: true });
+export function ImageGalleryItem({ data }) {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const openModal = () => {
+    setIsModalOpen(true);
   };
-  closeModal = () => {
-    this.setState({ isModalOpen: false });
+  const closeModal = () => {
+    setIsModalOpen(false);
   };
-  keydown = evt => {
-    if (evt.key === 'Escape') {
-      this.closeModal();
-    }
-  };
-  componentDidUpdate(prevProps, prevState) {
-    if (this.state.isModalOpen) {
-      return document.addEventListener('keydown', this.keydown);
-    }
-    document.removeEventListener('keydown', this.keydown);
-  }
 
-  render() {
-    const { data } = this.props;
-
-    return (
-      <li className="ImageGalleryItem">
-        <img
-          onClick={this.openModal}
-          className="ImageGalleryItem-image"
-          src={data.webformatURL}
-          alt=""
+  return (
+    <li className="ImageGalleryItem">
+      <img
+        onClick={openModal}
+        className="ImageGalleryItem-image"
+        src={data.webformatURL}
+        alt=""
+      />
+      {isModalOpen && (
+        <Modal
+          largeImage={data.largeImageURL}
+          altTags={data.tags}
+          closeModal={closeModal}
         />
-        {this.state.isModalOpen && (
-          <Modal
-            largeImage={data.largeImageURL}
-            altTags={data.tags}
-            closeModal={this.closeModal}
-            keydown={this.keydown}
-          />
-        )}
-      </li>
-    );
-  }
+      )}
+    </li>
+  );
 }
+
+ImageGalleryItem.propTypes = {
+  data: PropTypes.object,
+};

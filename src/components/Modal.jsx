@@ -1,8 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
+import { useEffect } from 'react';
 
-export const Modal = ({ largeImage, altTags, closeModal, keydown }) => {
+export function Modal({ closeModal, largeImage, altTags }) {
+  const keydown = evt => {
+    if (evt.key === 'Escape') {
+      closeModal();
+    }
+  };
+  useEffect(() => {
+    window.addEventListener('keydown', keydown);
+    return () => {
+      window.removeEventListener('keydown', keydown);
+    };
+  });
+
   return ReactDOM.createPortal(
     <div
       className="Overlay"
@@ -16,7 +29,7 @@ export const Modal = ({ largeImage, altTags, closeModal, keydown }) => {
     </div>,
     document.querySelector('#modal')
   );
-};
+}
 
 Modal.propTypes = {
   largeImage: PropTypes.string,
